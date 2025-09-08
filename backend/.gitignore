@@ -1,0 +1,14 @@
+# Backend specific ignores
+# Keep requirements.txt but ignore other txt files that might be generated
+*.log
+*.pid
+*.seed
+*.pid.lock
+*.txt
+
+
+# Configuration files that might contain secrets
+config.ini
+config.json
+secrets.json
+

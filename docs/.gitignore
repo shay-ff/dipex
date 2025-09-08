@@ -1,0 +1,14 @@
+# Documentation specific ignores
+# Temporary documentation files
+*.tmp
+*.temp
+*.bak
+
+# Generated documentation
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Documentation build artifacts
+build/
+dist/
