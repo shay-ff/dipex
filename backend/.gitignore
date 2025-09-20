@@ -5,6 +5,7 @@
 *.seed
 *.pid.lock
 *.txt
+.env.*
 
 
 # Configuration files that might contain secrets
