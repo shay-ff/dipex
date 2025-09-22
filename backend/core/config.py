@@ -11,21 +11,21 @@ class Settings(BaseSettings):
     """Application settings"""
     
     # Database settings
-    database_url: str = environ.get("DATABASE_URL")
-    database_host: str = environ.get("DATABASE_HOST")
-    database_port: int = environ.get("DATABASE_PORT")
-    database_name: str = environ.get("DATABASE_DB")
-    database_user: str = environ.get("DATABASE_USER")
-    database_password: str = environ.get("DATABASE_PASSWORD")
+    database_url: str
+    database_host: str
+    database_port: int = 5432
+    database_name: str
+    database_user: str
+    database_password: str
     
     # JWT settings
-    secret_key: str = environ.get("SECRET_KEY")
-    algorithm: str = environ.get("ALGORITHM")
-    access_token_expire_minutes: int = environ.get("ACCESS_TOKEN_EXPIRE_MINUTES")
+    secret_key: str
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
     
     # App settings
-    app_name: str = environ.get("APP_NAME")
-    debug: bool = environ.get("DEBUG")
+    app_name: str = "Dipex"
+    debug: bool = True
     
     class Config:
         env_file = ".env"

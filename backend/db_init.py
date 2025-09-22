@@ -1,11 +1,5 @@
-#!/usr/bin/env python3
-"""
-Database initialization script
-Run this to create tables in your PostgreSQL database
-"""
-
-from db.session import create_tables, engine
-from core.config import settings
+from backend.db.session import create_tables, engine
+from backend.core.config import settings
 import sys
 
 def init_database():
