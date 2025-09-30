@@ -89,4 +89,5 @@ Thumbs.db
 *.seed
 *.pid.lock
 
-
+# personal markdown files
+planning.md
