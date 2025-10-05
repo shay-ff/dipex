@@ -91,3 +91,7 @@ Thumbs.db
 
 # personal markdown files
 planning.md
+SETUP_GUIDE.md
+
+
+./config/api.ts
