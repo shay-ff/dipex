@@ -28,6 +28,7 @@ router = APIRouter(prefix="/ocr", tags=["ocr"])
 class OCRRequest(BaseModel):
     """Request model for OCR endpoint"""
     user_id: int
+    
 
 
 @router.post("/extract")

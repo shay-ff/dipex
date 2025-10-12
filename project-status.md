@@ -3,6 +3,34 @@
 ## Overview
 Dipex is an expense tracking app that uses screenshot-based OCR to capture UPI payment confirmations. This document outlines the current implementation status versus the planned features from the product specification.
 
+## Recent engineering updates (2025-10-06)
+
+Summary of recent changes made during the debugging and cleanup session:
+
+- Fixed OCR endpoint parameter handling: the `/api/v1/ocr/extract-and-save` endpoint now expects a JSON body with `{"user_id": <id>}` rather than a query parameter. A request Pydantic model (`OCRRequest`) was added.
+- Replaced ad-hoc `print()` debug statements in `backend/app/api/v1/ocr.py` with a proper logger (module-level `logging`), and removed noisy console prints. This reduces accidental sensitive output in logs.
+- Added `.env.example` with placeholder values so contributors know which environment variables to set without committing secrets.
+- Verified `.gitignore` includes `.env` so the real credential file is not tracked by git.
+- Fixed `backend/core/config.py` (Pydantic settings) to rely on environment values and sensible defaults; created a local `.env` for development only (not committed).
+- Installed Python dependencies into a virtual environment and validated the backend can connect to the local Postgres Docker container and query `users` (confirmed user id=1 exists).
+
+Files changed during the session (high level):
+- `backend/app/api/v1/ocr.py` — request model added, debug prints removed, logging introduced.
+- `.env.example` — new file with placeholders for required environment variables.
+- `backend/core/config.py` — settings cleaned up for safer usage with `.env`.
+
+Verification performed:
+- Confirmed the database (Postgres Docker) is running and accessible from the backend. Queried `users` table and verified a record exists.
+- Started the FastAPI server and exercised the OCR endpoint using a JSON POST body (curl) to confirm behavior.
+
+Notes & follow-ups (recommended before pushing publicly):
+- Do not commit your local `.env` — it contains credentials. If those values are real, rotate the credentials before publishing or sharing the repository.
+- Consider converting remaining `print()` calls in utility scripts to logging (I left prints in test/init utilities intentionally; let me know if you want them converted).
+- Add a small section to `SETUP_GUIDE.md` or `README.md` describing how to copy `.env.example` -> `.env`, start the local Postgres container, create the virtualenv, and run the server.
+- Add database migrations (Alembic) or a documented migration strategy. Currently models exist but migration history is not tracked.
+- Add basic automated tests and a CI workflow that runs lint, tests, and a secret-scan on pull requests.
+
+
 ## Project Structure
 
 ```
