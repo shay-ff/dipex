@@ -4,38 +4,49 @@ Simple script to test if the backend is accessible
 """
 import requests
 import sys
+import logging
+
+logger = logging.getLogger("test_backend")
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+
 
 def test_backend_connection():
-    base_url = "http://192.168.29.12:8000"
+    base_url = "http://127.0.0.1:8000"
     
-    print(f"Testing backend connection to: {base_url}")
+    logger.info("Testing backend connection to: %s", base_url)
     
     try:
         # Test root endpoint
         response = requests.get(f"{base_url}/")
-        print(f"Root endpoint status: {response.status_code}")
-        print(f"Root endpoint response: {response.json()}")
+        logger.info("Root endpoint status: %s", response.status_code)
+        try:
+            logger.info("Root endpoint response: %s", response.json())
+        except Exception:
+            logger.info("Root endpoint returned non-json response")
         
         # Test OCR endpoint (should return method not allowed for GET)
         ocr_response = requests.get(f"{base_url}/api/v1/ocr/extract")
-        print(f"OCR endpoint status: {ocr_response.status_code}")
+        logger.info("OCR endpoint status: %s", ocr_response.status_code)
         
         if response.status_code == 200:
-            print("✅ Backend is accessible!")
+            logger.info("✅ Backend is accessible!")
             return True
         else:
-            print("❌ Backend returned error")
+            logger.error("❌ Backend returned error")
             return False
             
     except requests.exceptions.ConnectionError:
-        print("❌ Cannot connect to backend. Make sure:")
-        print("1. Backend server is running")
-        print("2. Server is bound to 0.0.0.0:8000 (not just localhost)")
-        print("3. Firewall allows connections on port 8000")
+        logger.error("❌ Cannot connect to backend. Make sure the server is running and network settings are correct")
         return False
     except Exception as e:
-        print(f"❌ Error: {e}")
+        logger.exception("❌ Error testing backend: %s", e)
         return False
+
 
 if __name__ == "__main__":
     success = test_backend_connection()
